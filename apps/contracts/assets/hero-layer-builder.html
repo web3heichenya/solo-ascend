@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Layer Preview - Contract Rendering</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+        
+        .controls-panel {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+        
+        .preview-panel {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        select, input[type="number"] {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .hero-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .hero-svg-container {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 10px;
+            display: inline-block;
+        }
+        
+        #heroSvg {
+            width: 400px;
+            height: 400px;
+            display: block;
+        }
+        
+        .layers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .layer-item {
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            padding: 10px;
+            border: 1px solid #444;
+        }
+        
+        .layer-title {
+            font-size: 11px;
+            color: #FFD700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .layer-preview {
+            width: 100%;
+            height: 100px;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .layer-preview svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .layer-info {
+            font-size: 10px;
+            color: #888;
+        }
+        
+        .stage-indicator {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .stage-forging { 
+            background-color: #C0C0C0; 
+            color: #000;
+        }
+        
+        .stage-completed { 
+            background-color: #FFD700; 
+            color: #000;
+        }
+        
+        .stage-solo-leveling {
+            background: linear-gradient(45deg, #FF69B4, #9370DB, #4169E1, #00FFFF, #00FF00, #FFD700, #FF4500);
+            color: #fff;
+        }
+        
+        .metadata-display {
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #444;
+        }
+        
+        .metadata-title {
+            color: #FFD700;
+            font-size: 12px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .metadata-content {
+            font-size: 11px;
+            color: #aaa;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .layer-selector {
+            margin-bottom: 10px;
+        }
+        
+        .trait-select {
+            width: 100%;
+            padding: 4px;
+            font-size: 11px;
+            background-color: #1a1a1a;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 3px;
+        }
+        
+        .render-info {
+            background-color: #2a2a2a;
+            border-left: 3px solid #FFD700;
+            padding: 10px;
+            margin: 20px 0;
+            font-size: 11px;
+            color: #aaa;
+        }
+        
+        .render-info strong {
+            color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Hero Layer Preview - Contract Accurate Rendering</h1>
+        <div class="subtitle">Simulates HeroMetadataRenderer.sol layer compositing logic</div>
+        
+        <div class="render-info">
+            <strong>Rendering Logic:</strong> This preview follows the exact layer compositing from HeroMetadataRenderer.sol:
+            <br>• Layers are rendered in order: BACKGROUND → BASE → EYES → MOUTH → FACE_FEATURE → GLASSES → HAIR_HAT → BODY → LEGS → FOOT → WEAPON
+            <br>• Each layer is positioned using LayerBounds from HeroTraitRegistry
+            <br>• Clip paths constrain each layer to its defined bounds
+            <br>• Border color changes based on stage (Silver/Gold/Rainbow)
+        </div>
+        
+        <div class="main-grid">
+            <div class="controls-panel">
+                <h3 style="color: #FFD700; font-size: 14px; margin-bottom: 20px;">Configuration</h3>
+                
+                <div class="control-group">
+                    <label>Hero Class</label>
+                    <select id="heroClass">
+                        <option value="0">Warrior</option>
+                        <option value="1">Mage</option>
+                        <option value="2">Archer</option>
+                        <option value="3">Rogue</option>
+                        <option value="4">Paladin</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Hero Stage (for border)</label>
+                    <select id="heroStage">
+                        <option value="0">Forging (Silver)</option>
+                        <option value="1">Completed (Gold)</option>
+                        <option value="2">Solo Leveling (Rainbow)</option>
+                    </select>
+                </div>
+                
+                <h4 style="color: #FFD700; font-size: 12px; margin: 20px 0 15px 0;">Layer Traits</h4>
+                
+                <div class="layer-selector">
+                    <label>Background</label>
+                    <select class="trait-select" id="trait-background">
+                        <option value="0">Forest Dawn</option>
+                        <option value="1">Basalt Lavafield</option>
+                        <option value="2">Cavern Torchlight</option>
+                        <option value="3">Mountain Sunset</option>
+                        <option value="4">Underwater Ruins</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Base</label>
+                    <select class="trait-select" id="trait-base">
+                        <option value="0">Human</option>
+                        <option value="1">Elf</option>
+                        <option value="2">Undead</option>
+                        <option value="3">Orc</option>
+                        <option value="4">Frost Clan</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Eyes</label>
+                    <select class="trait-select" id="trait-eyes">
+                        <option value="0">Blue Spark</option>
+                        <option value="1">Red Glow</option>
+                        <option value="2">Void Black</option>
+                        <option value="3">Purple Mystic</option>
+                        <option value="4">Yellow Cat</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Mouth</label>
+                    <select class="trait-select" id="trait-mouth">
+                        <option value="0">Grit Teeth</option>
+                        <option value="1">Smile Simple</option>
+                        <option value="2">Surprised Open</option>
+                        <option value="3">Neutral Line</option>
+                        <option value="4">Fangs Vampire</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Face Feature</label>
+                    <select class="trait-select" id="trait-face-feature">
+                        <option value="-1">None</option>
+                        <option value="0">Blue Tattoo</option>
+                        <option value="1">Scar Cheek</option>
+                        <option value="2">Warpaint Red</option>
+                        <option value="3">Freckles</option>
+                        <option value="4">Tribal White</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Glasses</label>
+                    <select class="trait-select" id="trait-glasses">
+                        <option value="-1">None</option>
+                        <option value="0">Monocle</option>
+                        <option value="1">Round Glasses</option>
+                        <option value="2">Square Goggles</option>
+                        <option value="3">Visor Tech</option>
+                        <option value="4">Eye Patch</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Hair Hat</label>
+                    <select class="trait-select" id="trait-hair-hat">
+                        <option value="0">Green Hood</option>
+                        <option value="1">Short Brown Hair</option>
+                        <option value="2">Silver Long Hair</option>
+                        <option value="3">Royal Crown Hat</option>
+                        <option value="4">Mohawk Red</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Body</label>
+                    <select class="trait-select" id="trait-body">
+                        <option value="0">Cloth Tunic</option>
+                        <option value="1">Gold Robe Runes</option>
+                        <option value="2">Iron Cuirass</option>
+                        <option value="3">Leather Vest</option>
+                        <option value="4">Diamond Plate</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Legs</label>
+                    <select class="trait-select" id="trait-legs">
+                        <option value="0">Cloth Pants</option>
+                        <option value="1">Iron Greaves</option>
+                        <option value="2">Robe Tails Blue</option>
+                        <option value="3">Chain Leggings</option>
+                        <option value="4">Shorts Simple</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Foot</label>
+                    <select class="trait-select" id="trait-foot">
+                        <option value="0">Gold Rune Shoes</option>
+                        <option value="1">Iron Sabatons</option>
+                        <option value="2">Leather Boots</option>
+                        <option value="3">Sandals Strapped</option>
+                        <option value="4">Armored Greaves</option>
+                    </select>
+                </div>
+                
+                <div class="layer-selector">
+                    <label>Weapon</label>
+                    <select class="trait-select" id="trait-weapon">
+                        <!-- WARRIOR -->
+                        <option value="0">Warrior Longsword S1</option>
+                        <option value="1">Warrior Longsword S2</option>
+                        <option value="2">Warrior Longsword S3</option>
+                        <option value="3">Warrior Shield+Sword S1</option>
+                        <option value="4">Warrior Shield+Sword S2</option>
+                        <option value="5">Warrior Shield+Sword S3</option>
+                        <option value="6">Warrior Warhammer S1</option>
+                        <option value="7">Warrior Warhammer S2</option>
+                        <option value="8">Warrior Warhammer S3</option>
+                        <!-- MAGE -->
+                        <option value="9">Mage Crystal Staff S1</option>
+                        <option value="10">Mage Crystal Staff S2</option>
+                        <option value="11">Mage Crystal Staff S3</option>
+                        <option value="12">Mage Spellbook S1</option>
+                        <option value="13">Mage Spellbook S2</option>
+                        <option value="14">Mage Spellbook S3</option>
+                        <option value="15">Mage Orb Focus S1</option>
+                        <option value="16">Mage Orb Focus S2</option>
+                        <option value="17">Mage Orb Focus S3</option>
+                        <!-- ARCHER -->
+                        <option value="18">Archer Longbow S1</option>
+                        <option value="19">Archer Longbow S2</option>
+                        <option value="20">Archer Longbow S3</option>
+                        <option value="21">Archer Quiver Set S1</option>
+                        <option value="22">Archer Quiver Set S2</option>
+                        <option value="23">Archer Quiver Set S3</option>
+                        <option value="24">Archer Crossbow S1</option>
+                        <option value="25">Archer Crossbow S2</option>
+                        <option value="26">Archer Crossbow S3</option>
+                        <!-- ROGUE -->
+                        <option value="27">Rogue Twin Daggers S1</option>
+                        <option value="28">Rogue Twin Daggers S2</option>
+                        <option value="29">Rogue Twin Daggers S3</option>
+                        <option value="30">Rogue Throwing Stars S1</option>
+                        <option value="31">Rogue Throwing Stars S2</option>
+                        <option value="32">Rogue Throwing Stars S3</option>
+                        <option value="33">Rogue Shortsword S1</option>
+                        <option value="34">Rogue Shortsword S2</option>
+                        <option value="35">Rogue Shortsword S3</option>
+                        <!-- PALADIN -->
+                        <option value="36">Paladin Sacred Hammer S1</option>
+                        <option value="37">Paladin Sacred Hammer S2</option>
+                        <option value="38">Paladin Sacred Hammer S3</option>
+                        <option value="39">Paladin Sword+Shield Holy S1</option>
+                        <option value="40">Paladin Sword+Shield Holy S2</option>
+                        <option value="41">Paladin Sword+Shield Holy S3</option>
+                        <option value="42">Paladin Relic Sigil S1</option>
+                        <option value="43">Paladin Relic Sigil S2</option>
+                        <option value="44">Paladin Relic Sigil S3</option>
+                        <!-- SUMMONER -->
+                        <option value="45">Summoner Summon Staff S1</option>
+                        <option value="46">Summoner Summon Staff S2</option>
+                        <option value="47">Summoner Summon Staff S3</option>
+                        <option value="48">Summoner Pact Tome S1</option>
+                        <option value="49">Summoner Pact Tome S2</option>
+                        <option value="50">Summoner Pact Tome S3</option>
+                        <option value="51">Summoner Bone Bell S1</option>
+                        <option value="52">Summoner Bone Bell S2</option>
+                        <option value="53">Summoner Bone Bell S3</option>
+                        <!-- BERSERKER -->
+                        <option value="54">Berserker Great Axe S1</option>
+                        <option value="55">Berserker Great Axe S2</option>
+                        <option value="56">Berserker Great Axe S3</option>
+                        <option value="57">Berserker Spiked Club S1</option>
+                        <option value="58">Berserker Spiked Club S2</option>
+                        <option value="59">Berserker Spiked Club S3</option>
+                        <option value="60">Berserker Berserker Sword S1</option>
+                        <option value="61">Berserker Berserker Sword S2</option>
+                        <option value="62">Berserker Berserker Sword S3</option>
+                        <!-- PRIEST -->
+                        <option value="63">Priest Holy Staff S1</option>
+                        <option value="64">Priest Holy Staff S2</option>
+                        <option value="65">Priest Holy Staff S3</option>
+                        <option value="66">Priest Chalice S1</option>
+                        <option value="67">Priest Chalice S2</option>
+                        <option value="68">Priest Chalice S3</option>
+                        <option value="69">Priest Holy Tome S1</option>
+                        <option value="70">Priest Holy Tome S2</option>
+                        <option value="71">Priest Holy Tome S3</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="preview-panel">
+                <div style="text-align: center;">
+                    <span id="stageIndicator" class="stage-indicator stage-forging">FORGING</span>
+                </div>
+                
+                <div class="hero-display">
+                    <div class="hero-svg-container">
+                        <svg id="heroSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+                            <!-- SVG will be generated here -->
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="layers-grid" id="layersGrid">
+                    <!-- Individual layer previews will be shown here -->
+                </div>
+                
+                <div class="metadata-display">
+                    <div class="metadata-title">Generated Metadata</div>
+                    <div class="metadata-content" id="metadataContent">
+                        <!-- Metadata JSON will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="traits-data.js"></script>
+    <script>
+        // Layer bounds from HeroTraitRegistry._initializeLayerBounds() v2.0
+        const layerBounds = {
+            BACKGROUND: { x: 0, y: 0, width: 400, height: 400 },
+            BASE: { x: 100, y: 70, width: 200, height: 260 },
+            EYES: { x: 165, y: 95, width: 70, height: 16 },
+            MOUTH: { x: 178, y: 115, width: 40, height: 12 },
+            FACE_FEATURE: { x: 160, y: 75, width: 80, height: 50 },
+            GLASSES: { x: 160, y: 90, width: 80, height: 22 },
+            HAIR_HAT: { x: 150, y: 60, width: 100, height: 35 },
+            BODY: { x: 133, y: 145, width: 134, height: 130 },
+            LEGS: { x: 160, y: 265, width: 80, height: 70 },
+            FOOT: { x: 155, y: 330, width: 90, height: 22 },
+            WEAPON: { x: 270, y: 125, width: 65, height: 170 }
+        };
+        
+        // Layer order (from HeroMetadataRenderer) v2.0
+        const layerOrder = ['BACKGROUND', 'BASE', 'FACE_FEATURE', 'EYES', 'MOUTH', 'GLASSES', 'HAIR_HAT', 'BODY', 'LEGS', 'FOOT', 'WEAPON'];
+        
+        // Get SVG content from embedded data
+        function getSVGContent(layer, traitId) {
+            if (traitId < 0 || !window.TRAIT_SVG_DATA) return '';
+            
+            const layerData = window.TRAIT_SVG_DATA[layer];
+            if (!layerData) {
+                console.error(`No layer data found for: ${layer}`);
+                return '';
+            }
+            
+            // All layers should use numeric indexes after integration
+            const svgContent = layerData[traitId];
+            
+            if (!svgContent) {
+                console.warn(`No SVG content found for layer: ${layer}, traitId: ${traitId}`);
+                // Try to debug what's available
+                console.log(`Available keys for ${layer}:`, Object.keys(layerData));
+            }
+            
+            return svgContent || '';
+        }
+        
+        // Generate clip path definitions
+        function generateClipPaths() {
+            let defs = '<defs>';
+            
+            // Add gradient for solo leveling border
+            defs += `
+                <linearGradient id="rainbow-border" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FF69B4">
+                        <animate attributeName="stop-color" values="#FF69B4;#9370DB;#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4" dur="3s" repeatCount="indefinite"/>
+                    </stop>
+                    <stop offset="25%" style="stop-color:#9370DB">
+                        <animate attributeName="stop-color" values="#9370DB;#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB" dur="3s" repeatCount="indefinite"/>
+                    </stop>
+                    <stop offset="50%" style="stop-color:#4169E1">
+                        <animate attributeName="stop-color" values="#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1" dur="3s" repeatCount="indefinite"/>
+                    </stop>
+                    <stop offset="75%" style="stop-color:#00FFFF">
+                        <animate attributeName="stop-color" values="#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1;#00FFFF" dur="3s" repeatCount="indefinite"/>
+                    </stop>
+                    <stop offset="100%" style="stop-color:#00FF00">
+                        <animate attributeName="stop-color" values="#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1;#00FFFF;#00FF00" dur="3s" repeatCount="indefinite"/>
+                    </stop>
+                </linearGradient>`;
+            
+            // Generate clip paths for each layer
+            layerOrder.forEach((layer, index) => {
+                const bounds = layerBounds[layer];
+                defs += `
+                    <clipPath id="layer-${index}-clip">
+                        <rect x="0" y="0" width="${bounds.width}" height="${bounds.height}"/>
+                    </clipPath>`;
+            });
+            
+            defs += '</defs>';
+            return defs;
+        }
+        
+        // Generate background
+        function generateBackground() {
+            return '<rect width="400" height="400" fill="#1a1a1a"/>';
+        }
+        
+        // Generate border based on stage
+        function generateBorder(stage) {
+            if (stage === 0) { // FORGING
+                return '<rect x="2" y="2" width="396" height="396" fill="none" stroke="#C0C0C0" stroke-width="4"/>';
+            } else if (stage === 1) { // COMPLETED
+                return '<rect x="2" y="2" width="396" height="396" fill="none" stroke="#FFD700" stroke-width="4"/>';
+            } else { // SOLO_LEVELING
+                return '<rect x="2" y="2" width="396" height="396" fill="none" stroke="url(#rainbow-border)" stroke-width="4"/>';
+            }
+        }
+        
+        
+        // Main rendering function
+        function renderHero() {
+            const stage = parseInt(document.getElementById('heroStage').value);
+            
+            // Build SVG following HeroMetadataRenderer.generateSVG() logic
+            let svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">';
+            
+            // Add clip path definitions
+            svg += generateClipPaths();
+            
+            // Add background
+            svg += generateBackground();
+            
+            // Start hero layers group with centering transform (following contract logic)
+            svg += '<g transform="translate(200,200) scale(1.0)" transform-origin="center">';
+            
+            // Add each layer in order
+            for (let i = 0; i < layerOrder.length; i++) {
+                const layer = layerOrder[i];
+                const bounds = layerBounds[layer];
+                const selectId = `trait-${layer.toLowerCase().replace('_', '-')}`;
+                const traitSelect = document.getElementById(selectId);
+                
+                if (!traitSelect) {
+                    console.warn(`Could not find element with id: ${selectId} for layer: ${layer}`);
+                    continue;
+                }
+                
+                const traitId = parseInt(traitSelect.value);
+                
+                if (traitId >= 0) {
+                    const svgContent = getSVGContent(layer, traitId);
+                    
+                    // Special debug logging for WEAPON layer
+                    if (layer === 'WEAPON') {
+                        console.log(`WEAPON DEBUG: layer=${layer}, traitId=${traitId}, bounds=`, bounds);
+                        console.log(`WEAPON SVG content length: ${svgContent ? svgContent.length : 0}`);
+                        console.log(`WEAPON SVG preview: ${svgContent ? svgContent.substring(0, 100) : 'NONE'}`);
+                    }
+                    
+                    if (svgContent) {
+                        // Wrap in group with positioning and clip path (following _getLayerSVG logic)
+                        // Calculate relative position from center (200,200) - exact same as contract
+                        const relativeX = bounds.x - 200;
+                        const relativeY = bounds.y - 200;
+                        svg += `<g transform="translate(${relativeX},${relativeY})" clip-path="url(#layer-${i}-clip)">`;
+                        svg += svgContent;
+                        svg += '</g>';
+                        
+                        if (layer === 'WEAPON') {
+                            console.log(`WEAPON rendered at position: (${relativeX}, ${relativeY})`);
+                        }
+                    } else {
+                        console.warn(`No SVG content found for layer: ${layer}, traitId: ${traitId}`);
+                    }
+                }
+            }
+            
+            // Close hero layers group
+            svg += '</g>';
+            
+            // Add border (always on top)
+            svg += generateBorder(stage);
+            
+            // Close SVG
+            svg += '</svg>';
+            
+            // Update the display
+            document.getElementById('heroSvg').outerHTML = svg.replace('<svg', '<svg id="heroSvg"');
+            
+            // Update stage indicator badge
+            updateStageIndicator(stage);
+            
+            // Update metadata display
+            updateMetadata();
+            
+            // Update layer previews
+            updateLayerPreviews();
+        }
+        
+        // Update stage indicator
+        function updateStageIndicator(stage) {
+            const indicator = document.getElementById('stageIndicator');
+            const stageNames = ['FORGING', 'COMPLETED', 'SOLO LEVELING'];
+            const stageClasses = ['stage-forging', 'stage-completed', 'stage-solo-leveling'];
+            
+            indicator.textContent = stageNames[stage];
+            indicator.className = 'stage-indicator ' + stageClasses[stage];
+        }
+        
+        // Update metadata display
+        function updateMetadata() {
+            const heroClass = parseInt(document.getElementById('heroClass').value);
+            const stage = parseInt(document.getElementById('heroStage').value);
+            
+            const classNames = ['Warrior', 'Mage', 'Archer', 'Rogue', 'Paladin'];
+            const stageNames = ['Forging', 'Completed', 'Solo Leveling'];
+            
+            const metadata = {
+                name: "Solo Ascend Hero Preview",
+                description: "A uniquely generated hero in the Solo Ascend universe with layered traits and progression.",
+                attributes: [
+                    { trait_type: "Class", value: classNames[heroClass] },
+                    { trait_type: "Stage", value: stageNames[stage] }
+                ]
+            };
+            
+            // Add layer traits
+            layerOrder.forEach(layer => {
+                const traitSelect = document.getElementById(`trait-${layer.toLowerCase().replace('_', '-')}`);
+                const traitId = parseInt(traitSelect.value);
+                if (traitId >= 0) {
+                    
+                    const traitNames = {
+                        BACKGROUND: ['Forest Dawn', 'Basalt Lavafield', 'Cavern Torchlight'],
+                        BASE: ['Human', 'Elf', 'Undead'],
+                        EYES: ['Blue Spark', 'Red Glow', 'Void Black'],
+                        MOUTH: ['Grit Teeth', 'Smile Simple', 'Surprised Open'],
+                        FACE_FEATURE: ['Blue Tattoo', 'Scar Cheek', 'Warpaint Red'],
+                        GLASSES: ['Monocle', 'Round Glasses', 'Square Goggles'],
+                        HAIR_HAT: ['Green Hood', 'Short Brown Hair', 'Silver Long Hair'],
+                        BODY: ['Cloth Tunic', 'Gold Robe Runes', 'Iron Cuirass'],
+                        LEGS: ['Cloth Pants', 'Iron Greaves', 'Robe Tails Blue'],
+                        FOOT: ['Gold Rune Shoes', 'Iron Sabatons', 'Leather Boots'],
+                        WEAPON: [
+                            // WARRIOR (0-8)
+                            'Warrior Longsword S1', 'Warrior Longsword S2', 'Warrior Longsword S3',
+                            'Warrior Shield+Sword S1', 'Warrior Shield+Sword S2', 'Warrior Shield+Sword S3',
+                            'Warrior Warhammer S1', 'Warrior Warhammer S2', 'Warrior Warhammer S3',
+                            // MAGE (9-17)
+                            'Mage Crystal Staff S1', 'Mage Crystal Staff S2', 'Mage Crystal Staff S3',
+                            'Mage Spellbook S1', 'Mage Spellbook S2', 'Mage Spellbook S3',
+                            'Mage Orb Focus S1', 'Mage Orb Focus S2', 'Mage Orb Focus S3',
+                            // ARCHER (18-26)
+                            'Archer Longbow S1', 'Archer Longbow S2', 'Archer Longbow S3',
+                            'Archer Quiver Set S1', 'Archer Quiver Set S2', 'Archer Quiver Set S3',
+                            'Archer Crossbow S1', 'Archer Crossbow S2', 'Archer Crossbow S3',
+                            // ROGUE (27-35)
+                            'Rogue Twin Daggers S1', 'Rogue Twin Daggers S2', 'Rogue Twin Daggers S3',
+                            'Rogue Throwing Stars S1', 'Rogue Throwing Stars S2', 'Rogue Throwing Stars S3',
+                            'Rogue Shortsword S1', 'Rogue Shortsword S2', 'Rogue Shortsword S3',
+                            // PALADIN (36-44)
+                            'Paladin Sacred Hammer S1', 'Paladin Sacred Hammer S2', 'Paladin Sacred Hammer S3',
+                            'Paladin Sword+Shield Holy S1', 'Paladin Sword+Shield Holy S2', 'Paladin Sword+Shield Holy S3',
+                            'Paladin Relic Sigil S1', 'Paladin Relic Sigil S2', 'Paladin Relic Sigil S3',
+                            // SUMMONER (45-53)
+                            'Summoner Summon Staff S1', 'Summoner Summon Staff S2', 'Summoner Summon Staff S3',
+                            'Summoner Pact Tome S1', 'Summoner Pact Tome S2', 'Summoner Pact Tome S3',
+                            'Summoner Bone Bell S1', 'Summoner Bone Bell S2', 'Summoner Bone Bell S3',
+                            // BERSERKER (54-62)
+                            'Berserker Great Axe S1', 'Berserker Great Axe S2', 'Berserker Great Axe S3',
+                            'Berserker Spiked Club S1', 'Berserker Spiked Club S2', 'Berserker Spiked Club S3',
+                            'Berserker Berserker Sword S1', 'Berserker Berserker Sword S2', 'Berserker Berserker Sword S3',
+                            // PRIEST (63-71)
+                            'Priest Holy Staff S1', 'Priest Holy Staff S2', 'Priest Holy Staff S3',
+                            'Priest Chalice S1', 'Priest Chalice S2', 'Priest Chalice S3',
+                            'Priest Holy Tome S1', 'Priest Holy Tome S2', 'Priest Holy Tome S3'
+                        ]
+                    };
+                    
+                    if (traitNames[layer] && traitNames[layer][traitId]) {
+                        metadata.attributes.push({
+                            trait_type: layer.replace('_', ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase()),
+                            value: traitNames[layer][traitId]
+                        });
+                    }
+                }
+            });
+            
+            document.getElementById('metadataContent').textContent = JSON.stringify(metadata, null, 2);
+        }
+        
+        // Update individual layer previews
+        function updateLayerPreviews() {
+            const grid = document.getElementById('layersGrid');
+            grid.innerHTML = '';
+            
+            for (const layer of layerOrder) {
+                const bounds = layerBounds[layer];
+                const selectId = `trait-${layer.toLowerCase().replace('_', '-')}`;
+                const traitSelect = document.getElementById(selectId);
+                
+                if (!traitSelect) {
+                    console.warn(`Could not find element with id: ${selectId} for layer preview: ${layer}`);
+                    continue;
+                }
+                
+                const traitId = parseInt(traitSelect.value);
+                
+                const item = document.createElement('div');
+                item.className = 'layer-item';
+                
+                const title = document.createElement('div');
+                title.className = 'layer-title';
+                title.textContent = layer.replace('_', ' ');
+                item.appendChild(title);
+                
+                const preview = document.createElement('div');
+                preview.className = 'layer-preview';
+                
+                if (traitId >= 0) {
+                    const svgContent = getSVGContent(layer, traitId);
+                    
+                    if (svgContent) {
+                        const previewSvg = `
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${bounds.width} ${bounds.height}" width="100%" height="100%">
+                                ${svgContent}
+                            </svg>`;
+                        preview.innerHTML = previewSvg;
+                    }
+                } else {
+                    preview.innerHTML = '<div style="text-align: center; padding: 40px 0; color: #555;">None</div>';
+                }
+                
+                item.appendChild(preview);
+                
+                const info = document.createElement('div');
+                info.className = 'layer-info';
+                info.textContent = `Bounds: ${bounds.x},${bounds.y} ${bounds.width}x${bounds.height}`;
+                item.appendChild(info);
+                
+                grid.appendChild(item);
+            }
+        }
+        
+        // Initialize
+        function init() {
+            // Check if trait data is loaded
+            if (!window.TRAIT_SVG_DATA) {
+                console.error('Trait SVG data not loaded. Please ensure traits-data.js exists.');
+                document.getElementById('metadataContent').textContent = 'Error: Trait data not loaded. Please check traits-data.js file.';
+                return;
+            }
+            
+            // Ensure traits are integrated
+            if (window.integrateNewTraits) {
+                console.log('Running trait integration...');
+                window.integrateNewTraits();
+                console.log('Trait integration complete. Available traits:');
+                for (const layer in window.TRAIT_SVG_DATA) {
+                    console.log(`${layer}: ${Object.keys(window.TRAIT_SVG_DATA[layer]).length} traits`);
+                }
+            }
+            
+            // Add event listeners
+            const inputs = document.querySelectorAll('select, input');
+            inputs.forEach(input => {
+                input.addEventListener('change', renderHero);
+            });
+            
+            // Initial render
+            renderHero();
+        }
+        
+        // Start when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

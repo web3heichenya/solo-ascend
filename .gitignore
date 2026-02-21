@@ -1,0 +1,28 @@
+# Dependencies
+node_modules
+/.pnpm-debug.log
+
+# Build Outputs
+.next/
+out/
+build/
+dist/
+.turbo
+
+# Foundry / Smart Contracts
+apps/contracts/out/
+apps/contracts/cache/
+apps/contracts/broadcast/
+apps/contracts/lib/
+
+# Local Env Files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Misc
+.DS_Store
+.vscode/
+*.log

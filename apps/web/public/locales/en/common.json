@@ -1,0 +1,283 @@
+{
+  "app": {
+    "title": "Solo Ascend",
+    "subtitle": "Web3 Hero Forging Game",
+    "loading": "Application Loading...",
+    "pleaseWait": "Please wait while we initialize the application"
+  },
+  "wallet": {
+    "connect": "Connect Wallet",
+    "disconnect": "Disconnect",
+    "wrongNetwork": "Wrong Network",
+    "connectToStart": "Connect your wallet to begin your hero journey"
+  },
+  "hero": {
+    "mint": {
+      "title": "Mint Your Hero",
+      "subtitle": "Begin your Solo Ascend adventure",
+      "cost": "Minting Cost",
+      "gasFee": "+ Gas Fee",
+      "button": "Mint Hero",
+      "confirming": "Confirming Transaction...",
+      "minting": "Minting...",
+      "success": "Hero minted successfully! 🎉",
+      "failed": "Minting failed",
+      "info": "Heroes will have random classes and attributes",
+      "onePerWallet": "Each wallet address can only mint one hero",
+      "totalMinted": "Total Heroes Minted"
+    },
+    "display": {
+      "hero": "Hero",
+      "notFound": "Hero Not Found",
+      "checkId": "Please check hero ID",
+      "searchPlaceholder": "Enter Hero ID",
+      "forgeCount": "Forge Count",
+      "dailyForge": "Daily Forge",
+      "forgeCompleted": "Forge Completed",
+      "confirming": "Confirming...",
+      "forging": "Forging...",
+      "loadingHero": "Loading hero data...",
+      "svgArea": "SVG Render Area",
+      "tokenBoundAccount": "Token Bound Account",
+      "viewOnExplorer": "View on blockchain explorer",
+      "forgeSuccess": "Forge completed successfully!",
+      "forgeSuccessDesc": "Your hero has been forged and upgraded!"
+    },
+    "svg": {
+      "loading": "Loading Hero...",
+      "failed": "Failed to load hero",
+      "retry": "Retry"
+    },
+    "classes": {
+      "Warrior": "Warrior",
+      "Mage": "Mage",
+      "Archer": "Archer",
+      "Rogue": "Rogue",
+      "Paladin": "Paladin",
+      "Summoner": "Summoner",
+      "Berserker": "Berserker",
+      "Priest": "Priest"
+    },
+    "stages": {
+      "Forging": "Forging Stage",
+      "Completed": "Completed Stage",
+      "SoloLeveling": "Solo Leveling Stage"
+    },
+    "attributes": {
+      "hp": "Health Points",
+      "hpRegen": "Health Regeneration",
+      "ad": "Attack Damage",
+      "ap": "Ability Power",
+      "attackSpeed": "Attack Speed",
+      "crit": "Critical Rate",
+      "armor": "Armor",
+      "mr": "Magic Resistance",
+      "cdr": "Cooldown Reduction",
+      "moveSpeed": "Movement Speed",
+      "lifesteal": "Lifesteal",
+      "tenacity": "Tenacity",
+      "penetration": "Penetration",
+      "mana": "Mana",
+      "manaRegen": "Mana Regeneration",
+      "intelligence": "Intelligence",
+      "comparison": {
+        "current": "Current",
+        "base": "Base",
+        "bonus": "Bonus"
+      }
+    },
+    "search": {
+      "title": "Hero Search",
+      "description": "Search for a specific hero ID or clear records",
+      "placeholder": "Enter Hero ID",
+      "clearRecord": "Clear Record",
+      "confirm": "Confirm Search"
+    }
+  },
+  "ui": {
+    "settings": "Settings",
+    "inventory": "Inventory",
+    "save": "Save Settings",
+    "cancel": "Cancel",
+    "search": "Search",
+    "faq": "FAQ"
+  },
+  "navigation": {
+    "home": "Home",
+    "menu": "Menu"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "refresh": "Refresh"
+  },
+  "settings": {
+    "title": "System Settings",
+    "subtitle": "Configure RPC connections to optimize contract query performance",
+    "alchemyKey": "ALCHEMY API Key",
+    "alchemyPlaceholder": "Enter your Alchemy API Key...",
+    "alchemyInfo": "Used for enhanced NFT metadata and faster query speeds",
+    "customRpc": "Custom RPC URL",
+    "customRpcPlaceholder": "https://base-sepolia.g.alchemy.com/v2/your-key",
+    "customRpcInfo": "Optional: Use custom RPC endpoint instead of default connection"
+  },
+  "inventory": {
+    "title": "Inventory System",
+    "subtitle": "View your Rainbow and Mythic quality forge items",
+    "forge": "Forge Items",
+    "forgeItems": "Available Forge Tools",
+    "rainbow": "Rainbow Items",
+    "mythic": "Mythic Items",
+    "noItems": "No items",
+    "needsApiKey": "Alchemy API Key required to view detailed information",
+    "configureApiKey": "Please configure your API Key in settings",
+    "basicForge": "Basic Forge",
+    "advancedForge": "Advanced Forge",
+    "masterForge": "Master Forge",
+    "legendaryForge": "Legendary Forge",
+    "info": "Only Rainbow and Mythic quality forge items are shown in inventory"
+  },
+  "forge": {
+    "pending": {
+      "title": "Pending Forges"
+    },
+    "status": {
+      "fulfilled": "Completed",
+      "processing": "Processing",
+      "parsing": "Parsing",
+      "checking": "Checking status..."
+    },
+    "transaction": {
+      "tx": "TX",
+      "request": "Request"
+    },
+    "button": {
+      "fulfilling": "Fulfilling...",
+      "confirming": "Confirming...",
+      "fulfillManually": "Fulfill Manually"
+    },
+    "oracle": {
+      "selectOracle": "Select Oracle",
+      "description": "Choose an oracle for daily forging. Different oracles provide different quality reward hints",
+      "qualityHint": "Quality Hint",
+      "silverDesc": "Silver Quality - Basic attribute enhancement",
+      "goldDesc": "Gold Quality - Moderate attribute enhancement",
+      "rainbowDesc": "Rainbow Quality - Advanced attribute enhancement",
+      "mythicDesc": "Mythic Quality - Ultimate attribute enhancement",
+      "forging": "Forging...",
+      "startForge": "Start Forge",
+      "forgeStarted": "Forge Started",
+      "feeMultiplier": "Fee Multiplier",
+      "feeMultiplierTooltip": "To prevent oracle fee errors due to network delays, providing a higher multiplier can increase the success rate of oracle requests.",
+      "forgeStartedDesc": "Please wait for blockchain confirmation",
+      "selectedDetails": "Selected Oracle Details",
+      "expectedQuality": "Expected Quality Distribution",
+      "cost": "Oracle Cost"
+    },
+    "item": {
+      "defaultName": "Forge Item #{{tokenId}}",
+      "tokenId": "Token ID",
+      "effect": "Effect",
+      "attribute": "Attribute",
+      "value": "Value",
+      "created": "Created"
+    }
+  },
+  "tba": {
+    "viewAssets": "View Assets",
+    "assets": {
+      "title": "TBA Asset Management",
+      "subtitle": "View forge items in your hero's Token Bound Account",
+      "address": "TBA Address",
+      "noItems": "No items",
+      "needsApiKey": "Alchemy API Key required to view detailed information",
+      "configureApiKey": "Please configure your API Key in settings",
+      "alchemyNotice": "Tip: Set Alchemy API Key for enhanced NFT data support"
+    }
+  },
+  "transfer": {
+    "title": "Transfer Item",
+    "item": "Item",
+    "from": "From",
+    "to": "To",
+    "transfer": "Transfer",
+    "transferring": "Transferring...",
+    "success": "Transfer Successful",
+    "successDesc": "Item #{{tokenId}} has been successfully transferred",
+    "invalidAddress": "Invalid wallet address",
+    "tbaNotice": "Note: Transferring from TBA requires proper permission setup",
+    "directNotice": "Note: This will transfer directly from your wallet address"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about using Solo Ascend",
+    "navigation": {
+      "back": "Back to Game"
+    },
+    "whatIsSoloAscend": {
+      "question": "What is Solo Ascend?",
+      "answer": "Solo Ascend is a fully on-chain Web3 RPG game where you can mint unique heroes, forge them daily to improve their attributes, and watch them evolve. Each hero is a unique NFT with randomly generated classes and attributes that grow stronger through the forging process."
+    },
+    "howToMintHero": {
+      "question": "How do I mint a hero?",
+      "answer": "Connect your wallet to the game, ensure you're on the correct network (Base Sepolia), and click the 'Mint Hero' button. Each wallet address can only mint one hero. You'll need to pay the minting cost plus gas fees. Your hero will have random class and attributes."
+    },
+    "whatIsForging": {
+      "question": "What is forging and how does it work?",
+      "answer": "Forging is the core mechanic that allows you to enhance your hero's attributes. During forging, you select an oracle that provides quality hints for potential rewards. The forging process is handled on-chain and may take some time to complete. Successful forging improves your hero's stats and can unlock new abilities."
+    },
+    "howOftenForge": {
+      "question": "How often can I forge my hero?",
+      "answer": "You can perform daily forging once per day. The system tracks your forge count and ensures fair progression. Make sure to complete any pending forges before starting a new one."
+    },
+    "whatAreOracles": {
+      "question": "What are oracles and how do I choose one?",
+      "answer": "Oracles are smart contracts that provide different quality hints for forging rewards:\n• Silver Quality - Basic attribute enhancement\n• Gold Quality - Moderate attribute enhancement\n• Rainbow Quality - Advanced attribute enhancement\n• Mythic Quality - Ultimate attribute enhancement\n\nChoose based on your desired risk/reward profile."
+    },
+    "heroClasses": {
+      "question": "What hero classes are available?",
+      "answer": "There are 8 hero classes available:\n• Warrior - Balanced melee fighter with high HP and armor\n• Mage - Magic-focused with high AP and mana efficiency\n• Archer - Ranged attacker with high critical strike and attack speed\n• Rogue - Agile assassin with high movement speed and critical damage\n• Paladin - Support tank with healing and defensive capabilities\n• Summoner - Mystical conjurer with summoning and control abilities\n• Berserker - Fierce warrior with high damage and rage mechanics\n• Priest - Holy support class with healing and protective magic\n\nEach class has unique attribute distributions and strengths suited for different playstyles."
+    },
+    "whatIsTBA": {
+      "question": "What is a Token Bound Account (TBA)?",
+      "answer": "Each hero has its own Token Bound Account - a smart contract wallet that belongs to your hero NFT. Forge items and other assets earned through gameplay are stored in this account. You can view and manage these assets through the inventory system."
+    },
+    "walletConnection": {
+      "question": "Which wallets are supported?",
+      "answer": "Solo Ascend supports all major Web3 wallets through RainbowKit integration, including:\n• MetaMask\n• WalletConnect\n• Coinbase Wallet\n• Trust Wallet\n• And many others\n\nEnsure your wallet is configured for the Base Sepolia network."
+    },
+    "networkRequirements": {
+      "question": "What network should I use?",
+      "answer": "Solo Ascend currently operates on Base Sepolia testnet for testing and stabilization. After thorough testing, it will be deployed to Base Mainnet. Make sure your wallet is connected to this network. If you're on the wrong network, the game will prompt you to switch. You can get testnet ETH from Base Sepolia faucets for gas fees."
+    },
+    "gasFees": {
+      "question": "What are the gas fees?",
+      "answer": "Gas fees vary depending on network congestion. You'll need testnet ETH for:\n• Minting heroes\n• Forging operations\n• Transferring items\n• Other on-chain interactions\n\nFees are generally low on Base Sepolia testnet."
+    },
+    "apiKeySetup": {
+      "question": "Do I need an Alchemy API key?",
+      "answer": "An Alchemy API key is optional but recommended for enhanced performance:\n• Faster NFT metadata loading\n• Better inventory display\n• Enhanced asset information\n\nYou can configure your API key in the Settings menu. The game works without it, but with reduced functionality."
+    },
+    "forgeItemCount": {
+      "question": "Why doesn't the number of forge items in my inventory match my forge count?",
+      "answer": "There are several possible reasons for this discrepancy:\n\n• Mythic quality forge items are sent directly to the hero owner's address\n• Some special effect forge items are automatically destroyed after use, such as FT forgers that transfer tokens to the hero owner's address and then self-destruct\n• Heroes may passively receive Rainbow or Mythic quality forge items, such as those purchased from the marketplace\n• Silver and Gold quality forge items are soulbound and do not appear in the inventory\n\nOnly Rainbow and Mythic quality forge items are displayed in the inventory system."
+    },
+    "dataStorage": {
+      "question": "Where are hero images, attributes, and metadata stored?",
+      "answer": "Solo Ascend is fully on-chain, meaning all data including hero images, attributes, classes, and metadata are permanently stored on the blockchain. This ensures true ownership and permanence - your heroes and their data will exist as long as the blockchain exists, without relying on any centralized servers or external storage."
+    },
+    "futurePlans": {
+      "question": "What are Solo Ascend's future plans?",
+      "answer": "Solo Ascend is a community-driven project that provides a Loot-like foundation for building and expansion. The project's development will be guided by the community's vision and contributions. If Solo Ascend generates revenue, a portion will be allocated to fund community development initiatives, supporting developers and creators who contribute to the ecosystem's growth."
+    },
+    "troubleshooting": {
+      "question": "Common troubleshooting steps",
+      "answer": "If you encounter issues:\n\n1. Check wallet connection and network\n2. Ensure sufficient testnet ETH for gas\n3. Refresh the page and reconnect wallet\n4. Clear browser cache if needed\n5. Check console for error messages\n\nFor pending transactions, wait for blockchain confirmation or check transaction status on block explorer."
+    },
+    "needMoreHelp": {
+      "title": "Need More Help?",
+      "description": "Can't find what you're looking for? Connect with our community for support.",
+      "discord": "Join Discord",
+      "github": "GitHub Issues"
+    }
+  }
+}

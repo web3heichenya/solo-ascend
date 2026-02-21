@@ -1,0 +1,110 @@
+/* RainbowKit Custom Cyberpunk Styling */
+
+/* Connect Button Styling */
+[data-rk] button {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: all 0.2s ease !important;
+  border: 2px solid #00ffff !important;
+  border-radius: 0.5rem !important;
+}
+
+[data-rk] button:hover {
+  box-shadow: 0 0 10px #00ffff !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Modal Styling */
+[data-rk] [role='dialog'] {
+  border: 2px solid #00ffff !important;
+  border-radius: 0.5rem !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3) !important;
+}
+
+/* Wallet Option Styling */
+[data-rk] [data-testid='wallet-option'] {
+  border: 1px solid rgba(0, 255, 255, 0.3) !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-rk] [data-testid='wallet-option']:hover {
+  border-color: #00ffff !important;
+  background: rgba(0, 255, 255, 0.05) !important;
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.3) !important;
+}
+
+/* QR Code Container */
+[data-rk] [data-testid='qr-code'] {
+  border: 2px solid #00ffff !important;
+  border-radius: 0.5rem !important;
+  background: #ffffff !important;
+  padding: 1rem !important;
+}
+
+/* Account Modal Styling */
+[data-rk] [data-testid='account-modal'] {
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+[data-rk] [data-testid='account-modal'] button {
+  border-radius: 0.5rem !important;
+}
+
+/* Profile Action Buttons */
+[data-rk] [data-testid='account-modal'] [role='button'] {
+  border: 1px solid rgba(0, 255, 255, 0.3) !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-rk] [data-testid='account-modal'] [role='button']:hover {
+  border-color: #ff00ff !important;
+  box-shadow: 0 0 5px rgba(255, 0, 255, 0.3) !important;
+}
+
+/* Chain Modal Styling */
+[data-rk] [data-testid='chain-option'] {
+  border: 1px solid rgba(0, 255, 255, 0.3) !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-rk] [data-testid='chain-option']:hover {
+  border-color: #00ff41 !important;
+  background: rgba(0, 255, 65, 0.05) !important;
+}
+
+/* Loading Spinner */
+[data-rk] [data-testid='loading-spinner'] {
+  border-top-color: #00ffff !important;
+}
+
+/* Error States */
+[data-rk] [data-testid='error'] {
+  color: #ff3300 !important;
+  border-color: #ff3300 !important;
+}
+
+/* Success States */
+[data-rk] [data-testid='success'] {
+  color: #00ff41 !important;
+  border-color: #00ff41 !important;
+}
+
+/* Additional custom styling for better integration */
+[data-rk] {
+  --rk-fonts-body: 'JetBrains Mono', 'Zpix', monospace;
+  --rk-border-radius-connectbutton: 8px;
+  --rk-border-radius-modal: 8px;
+  --rk-border-radius-menubutton: 8px;
+}
+
+/* Ensure proper text rendering */
+[data-rk] * {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}

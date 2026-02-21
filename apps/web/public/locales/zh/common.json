@@ -1,0 +1,283 @@
+{
+  "app": {
+    "title": "Solo Ascend",
+    "subtitle": "Web3英雄锻造游戏",
+    "loading": "应用正在加载...",
+    "pleaseWait": "请稍候，我们正在初始化应用程序"
+  },
+  "wallet": {
+    "connect": "连接钱包",
+    "disconnect": "断开连接",
+    "wrongNetwork": "错误网络",
+    "connectToStart": "连接钱包开始你的英雄之旅"
+  },
+  "hero": {
+    "mint": {
+      "title": "铸造你的英雄",
+      "subtitle": "开始你的Solo Ascend冒险之旅",
+      "cost": "铸造费用",
+      "gasFee": "+ Gas费用",
+      "button": "铸造英雄",
+      "confirming": "确认交易...",
+      "minting": "铸造中...",
+      "success": "英雄铸造成功! 🎉",
+      "failed": "铸造失败",
+      "info": "英雄将拥有随机的职业和属性",
+      "onePerWallet": "每个钱包地址只能铸造一个英雄",
+      "totalMinted": "已铸造英雄总数"
+    },
+    "display": {
+      "hero": "英雄",
+      "notFound": "英雄未找到",
+      "checkId": "请检查英雄ID",
+      "searchPlaceholder": "输入英雄 ID",
+      "forgeCount": "锻体次数",
+      "dailyForge": "每日锻体",
+      "forgeCompleted": "锻造完成",
+      "confirming": "确认中...",
+      "forging": "锻造中...",
+      "loadingHero": "加载英雄数据...",
+      "svgArea": "SVG 渲染区域",
+      "tokenBoundAccount": "Token Bound Account",
+      "viewOnExplorer": "在区块链浏览器中查看",
+      "forgeSuccess": "锻造完成！",
+      "forgeSuccessDesc": "您的英雄已被锻造和升级！"
+    },
+    "svg": {
+      "loading": "加载英雄中...",
+      "failed": "加载英雄失败",
+      "retry": "重试"
+    },
+    "classes": {
+      "Warrior": "战士",
+      "Mage": "法师",
+      "Archer": "弓箭手",
+      "Rogue": "刺客",
+      "Paladin": "圣骑士",
+      "Summoner": "召唤师",
+      "Berserker": "狂战士",
+      "Priest": "牧师"
+    },
+    "stages": {
+      "Forging": "锻造阶段",
+      "Completed": "完成阶段",
+      "SoloLeveling": "单人升级阶段"
+    },
+    "attributes": {
+      "hp": "生命值",
+      "hpRegen": "生命回复",
+      "ad": "攻击力",
+      "ap": "法术强度",
+      "attackSpeed": "攻击速度",
+      "crit": "暴击率",
+      "armor": "护甲",
+      "mr": "魔法抗性",
+      "cdr": "冷却缩减",
+      "moveSpeed": "移动速度",
+      "lifesteal": "生命偷取",
+      "tenacity": "韧性",
+      "penetration": "穿透",
+      "mana": "法力值",
+      "manaRegen": "法力回复",
+      "intelligence": "智力",
+      "comparison": {
+        "current": "当前值",
+        "base": "基础值",
+        "bonus": "增益"
+      }
+    },
+    "search": {
+      "title": "英雄搜索",
+      "description": "搜索指定ID的英雄或清除记录",
+      "placeholder": "输入英雄 ID",
+      "clearRecord": "清除记录",
+      "confirm": "确认搜索"
+    }
+  },
+  "ui": {
+    "settings": "设置",
+    "inventory": "背包",
+    "save": "保存设置",
+    "cancel": "取消",
+    "search": "搜索",
+    "faq": "常见问题"
+  },
+  "navigation": {
+    "home": "首页",
+    "menu": "菜单"
+  },
+  "common": {
+    "cancel": "取消",
+    "refresh": "刷新"
+  },
+  "settings": {
+    "title": "系统设置",
+    "subtitle": "配置RPC连接以优化合约查询性能",
+    "alchemyKey": "ALCHEMY API 密钥",
+    "alchemyPlaceholder": "输入你的 Alchemy API Key...",
+    "alchemyInfo": "用于获取增强的NFT元数据和更快的查询速度",
+    "customRpc": "自定义 RPC URL",
+    "customRpcPlaceholder": "https://base-sepolia.g.alchemy.com/v2/your-key",
+    "customRpcInfo": "可选：使用自定义RPC端点替代默认连接"
+  },
+  "inventory": {
+    "title": "背包系统",
+    "subtitle": "查看你拥有的彩色和神话品质锻造器",
+    "forge": "锻造器",
+    "forgeItems": "可用锻造工具",
+    "rainbow": "彩色物品",
+    "mythic": "神话物品",
+    "noItems": "暂无物品",
+    "needsApiKey": "需要配置 Alchemy API Key 来查看详细信息",
+    "configureApiKey": "请在设置中配置您的 API Key",
+    "basicForge": "基础锻造炉",
+    "advancedForge": "高级锻造炉",
+    "masterForge": "大师锻造炉",
+    "legendaryForge": "传奇锻造炉",
+    "info": "只有彩色和神话品质的锻造器会显示在背包中"
+  },
+  "forge": {
+    "pending": {
+      "title": "待处理锻造"
+    },
+    "status": {
+      "fulfilled": "已完成",
+      "processing": "处理中",
+      "parsing": "解析中",
+      "checking": "检查状态..."
+    },
+    "transaction": {
+      "tx": "交易",
+      "request": "请求"
+    },
+    "button": {
+      "fulfilling": "执行中...",
+      "confirming": "确认中...",
+      "fulfillManually": "手动执行"
+    },
+    "oracle": {
+      "selectOracle": "选择预言机",
+      "description": "选择一个预言机来进行每日锻造，不同预言机提供不同品质的奖励提示",
+      "qualityHint": "品质提示",
+      "silverDesc": "银色品质 - 基础属性提升",
+      "goldDesc": "金色品质 - 中等属性提升",
+      "rainbowDesc": "彩色品质 - 高级属性提升",
+      "mythicDesc": "神话品质 - 顶级属性提升",
+      "forging": "锻造中...",
+      "startForge": "开始锻造",
+      "forgeStarted": "锻造已开始",
+      "forgeStartedDesc": "请等待区块链确认交易",
+      "feeMultiplier": "费用倍数",
+      "feeMultiplierTooltip": "为了防止网络延迟导致的预言机费用错误，提供一个较高的倍率，可以提高预言机请求的成功率。",
+      "selectedDetails": "已选预言机详情",
+      "expectedQuality": "预期品质分布",
+      "cost": "预言机费用"
+    },
+    "item": {
+      "defaultName": "锻造物品 #{{tokenId}}",
+      "tokenId": "Token ID",
+      "effect": "效果",
+      "attribute": "属性",
+      "value": "数值",
+      "created": "创建时间"
+    }
+  },
+  "tba": {
+    "viewAssets": "查看资产",
+    "assets": {
+      "title": "TBA 资产管理",
+      "subtitle": "查看您英雄的Token Bound Account中的锻造道具",
+      "address": "TBA 地址",
+      "noItems": "暂无物品",
+      "needsApiKey": "需要配置 Alchemy API Key 来查看详细信息",
+      "configureApiKey": "请在设置中配置您的 API Key",
+      "alchemyNotice": "提示：设置 Alchemy API Key 可获得更好的 NFT 数据支持"
+    }
+  },
+  "transfer": {
+    "title": "转移道具",
+    "item": "道具",
+    "from": "发送方",
+    "to": "接收方",
+    "transfer": "转移",
+    "transferring": "转移中...",
+    "success": "转移成功",
+    "successDesc": "道具 #{{tokenId}} 已成功转移",
+    "invalidAddress": "无效的钱包地址",
+    "tbaNotice": "注意：从 TBA 转移需要适当的权限设置",
+    "directNotice": "注意：这将直接从您的钱包地址转移"
+  },
+  "faq": {
+    "title": "常见问题",
+    "subtitle": "关于使用 Solo Ascend 你需要知道的一切",
+    "navigation": {
+      "back": "返回游戏"
+    },
+    "whatIsSoloAscend": {
+      "question": "什么是 Solo Ascend？",
+      "answer": "Solo Ascend 是一款完全链上的 Web3 RPG 游戏，你可以铸造独特的英雄，每天锻造他们以提升属性，并观看他们成长。每个英雄都是拥有随机生成职业和属性的独特 NFT，通过锻造过程变得更强大。"
+    },
+    "howToMintHero": {
+      "question": "如何铸造英雄？",
+      "answer": "连接钱包到游戏，确保你在正确的网络上（Base Sepolia），然后点击铸造英雄按钮。每个钱包地址只能铸造一个英雄。你需要支付铸造费用和 gas 费。你的英雄将拥有随机的职业和属性。"
+    },
+    "whatIsForging": {
+      "question": "什么是锻造，它如何工作？",
+      "answer": "锻造是核心机制，允许你增强英雄的属性。在锻造过程中，你选择一个预言机，它为潜在奖励提供品质提示。锻造过程在链上处理，可能需要一些时间完成。成功的锻造会提高英雄的属性并可能解锁新能力。"
+    },
+    "howOftenForge": {
+      "question": "我可以多久锻造一次英雄？",
+      "answer": "你可以每天进行一次每日锻造。系统会跟踪你的锻造次数并确保公平进展。确保在开始新的锻造之前完成任何待处理的锻造。"
+    },
+    "whatAreOracles": {
+      "question": "什么是预言机，如何选择？",
+      "answer": "预言机是智能合约，为锻造奖励提供不同品质提示：\n• 银色品质 - 基础属性提升\n• 金色品质 - 中等属性提升\n• 彩色品质 - 高级属性提升\n• 神话品质 - 顶级属性提升\n\n根据你期望的风险/回报比例选择。"
+    },
+    "heroClasses": {
+      "question": "有哪些英雄职业？",
+      "answer": "共有 8 个英雄职业：\n• 战士 - 平衡型近战战士，高生命值和护甲\n• 法师 - 法术专精，高法术强度和法力效率\n• 弓箭手 - 远程攻击者，高暴击率和攻击速度\n• 刺客 - 敏捷刺客，高移动速度和暴击伤害\n• 圣骑士 - 支援坦克，治疗和防御能力\n• 召唤师 - 神秘召唤师，召唤和控制能力\n• 狂战士 - 狂暴战士，高伤害和狂怒机制\n• 牧师 - 神圣支援，治疗和保护法术\n\n每个职业都有独特的属性分布和优势，适合不同的游戏风格。"
+    },
+    "whatIsTBA": {
+      "question": "什么是 Token Bound Account (TBA)？",
+      "answer": "每个英雄都有自己的 Token Bound Account - 一个属于你英雄 NFT 的智能合约钱包。通过游戏获得的锻造道具和其他资产存储在这个账户中。你可以通过背包系统查看和管理这些资产。"
+    },
+    "walletConnection": {
+      "question": "支持哪些钱包？",
+      "answer": "Solo Ascend 通过 RainbowKit 集成支持所有主要的 Web3 钱包，包括：\n• MetaMask\n• WalletConnect\n• Coinbase Wallet\n• Trust Wallet\n• 以及许多其他钱包\n\n确保你的钱包配置为 Base Sepolia 网络。"
+    },
+    "networkRequirements": {
+      "question": "我应该使用什么网络？",
+      "answer": "Solo Ascend 目前运行在 Base Sepolia 测试网上进行测试和稳定性验证。测试稳定后将部署至 Base 主网。确保你的钱包连接到这个网络。如果你在错误的网络上，游戏会提示你切换。你可以从 Base Sepolia 水龙头获取测试网 ETH 用于 gas 费用。"
+    },
+    "gasFees": {
+      "question": "gas 费用是多少？",
+      "answer": "Gas 费用根据网络拥堵情况而变化。你需要测试网 ETH 用于：\n• 铸造英雄\n• 锻造操作\n• 转移道具\n• 其他链上交互\n\nBase Sepolia 测试网上的费用通常很低。"
+    },
+    "apiKeySetup": {
+      "question": "我需要 Alchemy API 密钥吗？",
+      "answer": "Alchemy API 密钥是可选的，但建议使用以获得增强性能：\n• 更快的 NFT 元数据加载\n• 更好的背包显示\n• 增强的资产信息\n\n你可以在设置菜单中配置 API 密钥。游戏没有它也能运行，但功能会减少。"
+    },
+    "forgeItemCount": {
+      "question": "为什么背包中锻造器的数量与锻造次数不一致？",
+      "answer": "这有几种可能的原因：\n\n• 神话品质的锻造器会直接发送到英雄所有者的地址中\n• 有些特殊效果的锻造器在发挥作用后会被自动销毁，例如FT锻造器，会将Token转移到英雄所有者的地址后自动销毁\n• 英雄被动地接收到了彩色以上品质的锻造器，例如从市场中购买得到的\n• 银色和金色品质的锻造器是灵魂绑定的，不会出现在背包中\n\n只有彩色和神话品质的锻造器会显示在背包系统中。"
+    },
+    "dataStorage": {
+      "question": "英雄的图片、属性等元数据保存在哪里？",
+      "answer": "Solo Ascend 是全链上的，所有数据包括英雄图片、属性、职业和元数据都永久保存在区块链上。这确保了真正的所有权和永久性 - 只要区块链存在，您的英雄及其数据就会存在，无需依赖任何中心化服务器或外部存储。"
+    },
+    "futurePlans": {
+      "question": "Solo Ascend 的后续计划是什么？",
+      "answer": "Solo Ascend 是一个社区驱动的项目，提供了一个类似 Loot 项目的基础设施。项目的发展将由社区的愿景和贡献来引导。如果 Solo Ascend 获得收益，其中一部分将用于资助社区发展计划，支持为生态系统增长做出贡献的开发者和创作者。"
+    },
+    "troubleshooting": {
+      "question": "常见故障排除步骤",
+      "answer": "如果遇到问题：\n\n1. 检查钱包连接和网络\n2. 确保有足够的测试网 ETH 用于 gas\n3. 刷新页面并重新连接钱包\n4. 如果需要，清除浏览器缓存\n5. 检查控制台的错误消息\n\n对于待处理的交易，等待区块链确认或在区块浏览器上检查交易状态。"
+    },
+    "needMoreHelp": {
+      "title": "需要更多帮助？",
+      "description": "找不到你要找的内容？联系我们的社区获取支持。",
+      "discord": "加入 Discord",
+      "github": "GitHub Issues"
+    }
+  }
+}

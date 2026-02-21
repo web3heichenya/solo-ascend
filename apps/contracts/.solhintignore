@@ -1,0 +1,14 @@
+# Ignore library files
+lib/
+
+# Ignore scripts
+test/
+script/
+
+# Ignore node modules
+node_modules/
+
+# Ignore build artifacts
+cache/
+out/
+broadcast/

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solo Ascend Forge Item Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #FFD700;
+            margin-bottom: 30px;
+        }
+        
+        .builder-container {
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 30px;
+        }
+        
+        .controls-panel {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        
+        .preview-panel {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #cccccc;
+            font-weight: bold;
+        }
+        
+        select, input[type="range"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border-radius: 4px;
+        }
+        
+        select {
+            font-size: 14px;
+        }
+        
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .range-container input {
+            flex: 1;
+        }
+        
+        .range-value {
+            color: #FFD700;
+            font-weight: bold;
+            min-width: 30px;
+        }
+        
+        .forge-item-svg {
+            width: 350px;
+            height: 350px;
+            background-color: #2a2a2a;
+            border: 2px solid #444;
+            border-radius: 8px;
+            margin: 20px auto;
+            display: block;
+        }
+        
+        .quality-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .quality-silver {
+            background-color: #C0C0C0;
+            color: black;
+        }
+        
+        .quality-gold {
+            background-color: #FFD700;
+            color: black;
+        }
+        
+        .quality-rainbow {
+            background: linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3);
+            color: white;
+        }
+        
+        .quality-mythic {
+            background: linear-gradient(45deg, #FF69B4, #9370DB, #4169E1, #00FFFF, #00FF00, #FFD700, #FF4500);
+            color: white;
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        .effect-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 5px;
+            text-transform: uppercase;
+        }
+        
+        .effect-attribute { background-color: #4169E1; color: white; }
+        .effect-enhance { background-color: #32CD32; color: white; }
+        .effect-amplify { background-color: #FF69B4; color: white; }
+        .effect-ft { background-color: #FFD700; color: black; }
+        .effect-nft { background-color: #9370DB; color: white; }
+        .effect-mythic { 
+            background: linear-gradient(45deg, #FF69B4, #9370DB, #4169E1, #00FFFF, #00FF00, #FFD700, #FF4500);
+            color: white;
+            animation: shimmer 3s infinite;
+        }
+        
+        .info-text {
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .preview-details {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .grid-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+        }
+        
+        .mini-forge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        
+        .mini-forge-item:hover {
+            transform: scale(1.05);
+            border-color: #FFD700;
+        }
+        
+        .mini-forge-item svg {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 10px;
+        }
+        
+        .mini-forge-item-label {
+            font-size: 11px;
+            text-align: center;
+            color: #ccc;
+        }
+
+        .attributes-display {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            border: 1px solid #444;
+        }
+
+        .attribute-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .attribute-row:last-child {
+            border-bottom: none;
+        }
+
+        .attribute-label {
+            color: #999;
+            font-weight: bold;
+        }
+
+        .attribute-value {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .number-input {
+            width: 80px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔨 Solo Ascend Forge Item Builder</h1>
+        <div class="info-text">Preview forge items exactly as they appear on-chain with quality-based borders and effects<br>
+        <small style="color: #666;">Note: "Attribute" metadata field only appears for ATTRIBUTE effect type</small></div>
+        
+        <div class="builder-container">
+            <!-- Controls Panel -->
+            <div class="controls-panel">
+                <h2>Forge Item Configuration</h2>
+                
+                <!-- Basic Settings -->
+                <div class="control-group">
+                    <label for="effectType">Effect Type</label>
+                    <select id="effectType">
+                        <option value="0">Attribute (Boosts specific attribute)</option>
+                        <option value="1">Enhance (Splits into 2 items)</option>
+                        <option value="2">Amplify (Percentage boost to all)</option>
+                        <option value="3">FT (Token reward)</option>
+                        <option value="4">NFT (Exclusive NFT reward)</option>
+                        <option value="5">Mythic (Multiplier to all attributes)</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="quality">Forge Quality</label>
+                    <select id="quality">
+                        <option value="0">Silver (Soulbound)</option>
+                        <option value="1">Gold (Soulbound)</option>
+                        <option value="2">Rainbow (Tradeable)</option>
+                        <option value="3">Mythic (Tradeable)</option>
+                    </select>
+                </div>
+                
+                <div class="control-group" id="attributeGroup">
+                    <label for="attribute">Attribute (for Attribute type)</label>
+                    <select id="attribute">
+                        <option value="0">HP</option>
+                        <option value="1">HP Regen</option>
+                        <option value="2">AD (Attack Damage)</option>
+                        <option value="3">AP (Ability Power)</option>
+                        <option value="4">Attack Speed</option>
+                        <option value="5">Critical Strike</option>
+                        <option value="6">Armor</option>
+                        <option value="7">Magic Resistance</option>
+                        <option value="8">Cooldown Reduction</option>
+                        <option value="9">Move Speed</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="value">Effect Value</label>
+                    <input type="number" id="value" min="1" max="10000" value="50" class="number-input">
+                    <small id="valueHelp" style="color: #888; font-size: 12px;">
+                        For percentage effects, use basis points (100 = 1%)
+                    </small>
+                </div>
+                
+                <div class="control-group">
+                    <label for="tokenId">Token ID</label>
+                    <input type="number" id="tokenId" min="1" max="999999" value="1" class="number-input">
+                </div>
+
+                <h3>Quality Examples</h3>
+                <div class="grid-preview">
+                    <div class="mini-forge-item" onclick="loadExample('silver')">
+                        <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="black" stroke="#C0C0C0" stroke-width="3"/>
+                            <text x="60" y="50" font-family="serif" font-size="8" fill="white" text-anchor="middle">Attribute</text>
+                            <text x="60" y="70" font-family="serif" font-size="6" fill="white" text-anchor="middle">+50 to HP</text>
+                        </svg>
+                        <div class="mini-forge-item-label">Silver (shows Attribute)</div>
+                    </div>
+                    
+                    <div class="mini-forge-item" onclick="loadExample('gold')">
+                        <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <filter id="goldGlow">
+                                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <rect width="100%" height="100%" fill="black" stroke="#FFD700" stroke-width="4" filter="url(#goldGlow)"/>
+                            <text x="60" y="50" font-family="serif" font-size="8" fill="white" text-anchor="middle">Amplify</text>
+                            <text x="60" y="70" font-family="serif" font-size="6" fill="white" text-anchor="middle">+5% to all</text>
+                        </svg>
+                        <div class="mini-forge-item-label">Gold (no Attribute)</div>
+                    </div>
+                    
+                    <div class="mini-forge-item" onclick="loadExample('rainbow')">
+                        <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF0000"/>
+                                    <stop offset="16.66%" style="stop-color:#FF7F00"/>
+                                    <stop offset="33.33%" style="stop-color:#FFFF00"/>
+                                    <stop offset="50%" style="stop-color:#00FF00"/>
+                                    <stop offset="66.66%" style="stop-color:#0000FF"/>
+                                    <stop offset="83.33%" style="stop-color:#4B0082"/>
+                                    <stop offset="100%" style="stop-color:#9400D3"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="100%" height="100%" fill="black" stroke="url(#rainbowGradient)" stroke-width="5"/>
+                            <text x="60" y="50" font-family="serif" font-size="8" fill="white" text-anchor="middle">FT</text>
+                            <text x="60" y="70" font-family="serif" font-size="6" fill="white" text-anchor="middle">10% token</text>
+                        </svg>
+                        <div class="mini-forge-item-label">Rainbow (no Attribute)</div>
+                    </div>
+                    
+                    <div class="mini-forge-item" onclick="loadExample('mythic')">
+                        <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="mythicGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF69B4">
+                                        <animate attributeName="stop-color" values="#FF69B4;#9370DB;#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4" dur="3s" repeatCount="indefinite"/>
+                                    </stop>
+                                    <stop offset="25%" style="stop-color:#9370DB">
+                                        <animate attributeName="stop-color" values="#9370DB;#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB" dur="3s" repeatCount="indefinite"/>
+                                    </stop>
+                                    <stop offset="50%" style="stop-color:#4169E1">
+                                        <animate attributeName="stop-color" values="#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1" dur="3s" repeatCount="indefinite"/>
+                                    </stop>
+                                    <stop offset="75%" style="stop-color:#00FFFF">
+                                        <animate attributeName="stop-color" values="#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1;#00FFFF" dur="3s" repeatCount="indefinite"/>
+                                    </stop>
+                                    <stop offset="100%" style="stop-color:#00FF00">
+                                        <animate attributeName="stop-color" values="#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1;#00FFFF;#00FF00" dur="3s" repeatCount="indefinite"/>
+                                    </stop>
+                                </linearGradient>
+                                <filter id="mythicGlow">
+                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <rect width="100%" height="100%" fill="black" stroke="url(#mythicGradient)" stroke-width="6" filter="url(#mythicGlow)">
+                                <animate attributeName="stroke-width" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="60" y="50" font-family="serif" font-size="8" fill="white" text-anchor="middle">Mythic</text>
+                            <text x="60" y="65" font-family="serif" font-size="5" fill="white" text-anchor="middle">Solo Leveling</text>
+                        </svg>
+                        <div class="mini-forge-item-label">Mythic (no Attribute)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+                <h2>Forge Item Preview</h2>
+                <div id="effectBadge" class="effect-badge effect-attribute">ATTRIBUTE</div>
+                <div id="qualityBadge" class="quality-badge quality-silver">SILVER</div>
+                
+                <div style="position: relative; display: inline-block;">
+                    <svg id="forgeItemSvg" class="forge-item-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 350">
+                        <!-- SVG content will be generated here -->
+                    </svg>
+                </div>
+                
+                <!-- Forge Item Details Display -->
+                <div class="attributes-display">
+                    <div class="attribute-row">
+                        <span class="attribute-label">Token ID</span>
+                        <span class="attribute-value" id="displayTokenId">1</span>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Effect Type</span>
+                        <span class="attribute-value" id="displayEffectType">Attribute</span>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Quality</span>
+                        <span class="attribute-value" id="displayQuality">Silver</span>
+                    </div>
+                    <div class="attribute-row" id="attributeRow">
+                        <span class="attribute-label">Attribute</span>
+                        <span class="attribute-value" id="displayAttribute">HP</span>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Value</span>
+                        <span class="attribute-value" id="displayValue">50</span>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Effect Description</span>
+                        <span class="attribute-value" id="displayDescription">+50 to HP</span>
+                    </div>
+                </div>
+
+                <!-- JSON Metadata Preview -->
+                <div class="attributes-display" style="margin-top: 20px; text-align: left;">
+                    <h3 style="color: #FFD700; margin-bottom: 15px; text-align: center;">NFT Metadata Preview</h3>
+                    <pre id="metadataPreview" style="background-color: #1a1a1a; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 11px; color: #ccc; white-space: pre-wrap; border: 1px solid #333; text-align: left;"></pre>
+                </div>
+
+                <div class="preview-details">
+                    <strong>Contract:</strong> ForgeItemMetadataLib.generateSVG()<br>
+                    <strong>Border:</strong> Quality-based with animations for Mythic<br>
+                    <strong>Size:</strong> 350x350 pixels<br>
+                    <strong>Format:</strong> On-chain SVG generation<br>
+                    <strong>Note:</strong> Attribute field only shown for ATTRIBUTE effect type
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Effect type configurations
+        const effectTypes = {
+            0: { name: 'Attribute', class: 'attribute' },
+            1: { name: 'Enhance', class: 'enhance' },
+            2: { name: 'Amplify', class: 'amplify' },
+            3: { name: 'FT', class: 'ft' },
+            4: { name: 'NFT', class: 'nft' },
+            5: { name: 'Mythic', class: 'mythic' }
+        };
+
+        const qualities = {
+            0: { name: 'Silver', class: 'silver' },
+            1: { name: 'Gold', class: 'gold' },
+            2: { name: 'Rainbow', class: 'rainbow' },
+            3: { name: 'Mythic', class: 'mythic' }
+        };
+
+        const attributes = [
+            'HP', 'HP Regen', 'AD', 'AP', 'Attack Speed', 
+            'Critical Strike', 'Armor', 'Magic Resistance', 
+            'Cooldown Reduction', 'Move Speed'
+        ];
+
+        // Load predefined examples
+        function loadExample(type) {
+            switch(type) {
+                case 'silver':
+                    // Silver ATTRIBUTE example - will show Attribute field
+                    document.getElementById('effectType').value = '0';
+                    document.getElementById('quality').value = '0';
+                    document.getElementById('attribute').value = '0';
+                    document.getElementById('value').value = '50';
+                    document.getElementById('tokenId').value = '1';
+                    break;
+                case 'gold':
+                    // Gold AMPLIFY example - will NOT show Attribute field
+                    document.getElementById('effectType').value = '2';
+                    document.getElementById('quality').value = '1';
+                    document.getElementById('attribute').value = '0'; // Not used
+                    document.getElementById('value').value = '500';
+                    document.getElementById('tokenId').value = '2';
+                    break;
+                case 'rainbow':
+                    // Rainbow FT example - will NOT show Attribute field
+                    document.getElementById('effectType').value = '3';
+                    document.getElementById('quality').value = '2';
+                    document.getElementById('attribute').value = '0'; // Not used
+                    document.getElementById('value').value = '1000';
+                    document.getElementById('tokenId').value = '3';
+                    break;
+                case 'mythic':
+                    // Mythic MYTHIC example - will NOT show Attribute field
+                    document.getElementById('effectType').value = '5';
+                    document.getElementById('quality').value = '3';
+                    document.getElementById('attribute').value = '0'; // Not used
+                    document.getElementById('value').value = '2';
+                    document.getElementById('tokenId').value = '4';
+                    break;
+            }
+            updateAllDisplays();
+        }
+
+        // Generate quality-based border
+        function generateQualityBorder(quality) {
+            let defs = '';
+            let rect = '';
+            
+            switch(quality) {
+                case 0: // Silver
+                    defs = '';
+                    rect = '<rect width="100%" height="100%" fill="black" stroke="#C0C0C0" stroke-width="3"/>';
+                    break;
+                case 1: // Gold
+                    defs = `
+                        <defs>
+                            <filter id="goldGlow">
+                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                    `;
+                    rect = '<rect width="100%" height="100%" fill="black" stroke="#FFD700" stroke-width="4" filter="url(#goldGlow)"/>';
+                    break;
+                case 2: // Rainbow
+                    defs = `
+                        <defs>
+                            <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FF0000"/>
+                                <stop offset="16.66%" style="stop-color:#FF7F00"/>
+                                <stop offset="33.33%" style="stop-color:#FFFF00"/>
+                                <stop offset="50%" style="stop-color:#00FF00"/>
+                                <stop offset="66.66%" style="stop-color:#0000FF"/>
+                                <stop offset="83.33%" style="stop-color:#4B0082"/>
+                                <stop offset="100%" style="stop-color:#9400D3"/>
+                            </linearGradient>
+                        </defs>
+                    `;
+                    rect = '<rect width="100%" height="100%" fill="black" stroke="url(#rainbowGradient)" stroke-width="5"/>';
+                    break;
+                case 3: // Mythic
+                    defs = `
+                        <defs>
+                            <linearGradient id="mythicGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FF69B4">
+                                    <animate attributeName="stop-color" values="#FF69B4;#9370DB;#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4" dur="3s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="25%" style="stop-color:#9370DB">
+                                    <animate attributeName="stop-color" values="#9370DB;#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB" dur="3s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="50%" style="stop-color:#4169E1">
+                                    <animate attributeName="stop-color" values="#4169E1;#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1" dur="3s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="75%" style="stop-color:#00FFFF">
+                                    <animate attributeName="stop-color" values="#00FFFF;#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1;#00FFFF" dur="3s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="100%" style="stop-color:#00FF00">
+                                    <animate attributeName="stop-color" values="#00FF00;#FFD700;#FF4500;#FF69B4;#9370DB;#4169E1;#00FFFF;#00FF00" dur="3s" repeatCount="indefinite"/>
+                                </stop>
+                            </linearGradient>
+                            <filter id="mythicGlow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                    `;
+                    rect = `
+                        <rect width="100%" height="100%" fill="black" stroke="url(#mythicGradient)" stroke-width="6" filter="url(#mythicGlow)">
+                            <animate attributeName="stroke-width" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+                        </rect>
+                    `;
+                    break;
+                default:
+                    defs = '';
+                    rect = '<rect width="100%" height="100%" fill="black" stroke="#808080" stroke-width="2"/>';
+            }
+            
+            return { defs, rect };
+        }
+
+        // Generate effect value description
+        function getEffectValueString(effectType, value, attribute) {
+            switch(effectType) {
+                case 0: // Attribute
+                    return `+${value} to ${attributes[attribute]}`;
+                case 1: // Enhance
+                    return "Splits into 2 random attribute forged items";
+                case 2: // Amplify
+                    const wholePercent = Math.floor(value / 100);
+                    const decimalPercent = Math.floor((value % 100) / 10);
+                    return `+${wholePercent}.${decimalPercent}% to all attributes`;
+                case 3: // FT
+                    const ftWhole = Math.floor(value / 100);
+                    const ftDecimal = Math.floor((value % 100) / 10);
+                    return `${ftWhole}.${ftDecimal}% token reward`;
+                case 4: // NFT
+                    return "Exclusive NFT reward";
+                case 5: // Mythic
+                    return "Solo Leveling";
+                default:
+                    return "Unknown effect";
+            }
+        }
+
+        // Generate forge item SVG
+        function generateForgeItemSvg() {
+            const effectType = parseInt(document.getElementById('effectType').value);
+            const quality = parseInt(document.getElementById('quality').value);
+            const attribute = parseInt(document.getElementById('attribute').value);
+            const value = parseInt(document.getElementById('value').value);
+            
+            const effectTypeStr = effectTypes[effectType].name;
+            const effectValueStr = getEffectValueString(effectType, value, attribute);
+            const { defs, rect } = generateQualityBorder(quality);
+            
+            const svgContent = `
+                ${defs}
+                ${rect}
+                <text x="175" y="150" font-family="serif" font-size="18" fill="white" text-anchor="middle">${effectTypeStr}</text>
+                <text x="175" y="200" font-family="serif" font-size="14" fill="white" text-anchor="middle">${effectValueStr}</text>
+            `;
+            
+            const svgElement = document.getElementById('forgeItemSvg');
+            svgElement.innerHTML = svgContent;
+        }
+
+        // Update badges
+        function updateBadges() {
+            const effectType = parseInt(document.getElementById('effectType').value);
+            const quality = parseInt(document.getElementById('quality').value);
+            
+            const effectBadge = document.getElementById('effectBadge');
+            const qualityBadge = document.getElementById('qualityBadge');
+            
+            effectBadge.textContent = effectTypes[effectType].name;
+            effectBadge.className = `effect-badge effect-${effectTypes[effectType].class}`;
+            
+            qualityBadge.textContent = qualities[quality].name;
+            qualityBadge.className = `quality-badge quality-${qualities[quality].class}`;
+        }
+
+        // Update attributes display
+        function updateAttributesDisplay() {
+            const tokenId = document.getElementById('tokenId').value;
+            const effectType = parseInt(document.getElementById('effectType').value);
+            const quality = parseInt(document.getElementById('quality').value);
+            const attribute = parseInt(document.getElementById('attribute').value);
+            const value = document.getElementById('value').value;
+            
+            const effectValueStr = getEffectValueString(effectType, parseInt(value), attribute);
+            
+            document.getElementById('displayTokenId').textContent = tokenId;
+            document.getElementById('displayEffectType').textContent = effectTypes[effectType].name;
+            document.getElementById('displayQuality').textContent = qualities[quality].name;
+            document.getElementById('displayAttribute').textContent = attributes[attribute];
+            document.getElementById('displayValue').textContent = value;
+            document.getElementById('displayDescription').textContent = effectValueStr;
+            
+            // Update JSON metadata preview
+            updateMetadataPreview();
+        }
+
+        // Generate and display JSON metadata preview
+        function updateMetadataPreview() {
+            const tokenId = document.getElementById('tokenId').value;
+            const effectType = parseInt(document.getElementById('effectType').value);
+            const quality = parseInt(document.getElementById('quality').value);
+            const attribute = parseInt(document.getElementById('attribute').value);
+            const value = document.getElementById('value').value;
+            
+            const effectTypeName = effectTypes[effectType].name;
+            const qualityName = qualities[quality].name;
+            const forgerName = `${effectTypeName} Forger`;
+            const effectValueStr = getEffectValueString(effectType, parseInt(value), attribute);
+            
+            // Build attributes array (matching contract logic)
+            let attributesArray = [
+                {
+                    "trait_type": "Effect Type",
+                    "value": effectTypeName
+                },
+                {
+                    "trait_type": "Quality", 
+                    "value": qualityName
+                }
+            ];
+            
+            // Add Attribute trait only for ATTRIBUTE effect type
+            if (effectType === 0) {
+                attributesArray.push({
+                    "trait_type": "Attribute",
+                    "value": attributes[attribute]
+                });
+            }
+            
+            // Add Value and Created At
+            attributesArray.push(
+                {
+                    "trait_type": "Value",
+                    "value": parseInt(value)
+                },
+                {
+                    "trait_type": "Created At",
+                    "value": Math.floor(Date.now() / 1000) // Mock timestamp
+                }
+            );
+            
+            const metadata = {
+                "name": `${forgerName} #${tokenId}`,
+                "description": `${effectTypeName} forge item that provides ${effectValueStr}.`,
+                "image": "data:image/svg+xml;base64,[BASE64_ENCODED_SVG]",
+                "attributes": attributesArray
+            };
+            
+            document.getElementById('metadataPreview').textContent = JSON.stringify(metadata, null, 2);
+        }
+
+        // Toggle attribute selection visibility
+        function toggleAttributeGroup() {
+            const effectType = parseInt(document.getElementById('effectType').value);
+            const attributeGroup = document.getElementById('attributeGroup');
+            const attributeRow = document.getElementById('attributeRow');
+            
+            const showAttribute = effectType === 0;
+            attributeGroup.style.display = showAttribute ? 'block' : 'none';
+            attributeRow.style.display = showAttribute ? 'flex' : 'none';
+        }
+
+        // Update value help text
+        function updateValueHelp() {
+            const effectType = parseInt(document.getElementById('effectType').value);
+            const valueHelp = document.getElementById('valueHelp');
+            
+            switch(effectType) {
+                case 0: // Attribute
+                    valueHelp.textContent = 'Direct value added to the attribute';
+                    break;
+                case 1: // Enhance
+                    valueHelp.textContent = 'Value not used for Enhance type';
+                    break;
+                case 2: // Amplify
+                case 3: // FT
+                    valueHelp.textContent = 'Use basis points (100 = 1%, 1000 = 10%)';
+                    break;
+                case 4: // NFT
+                    valueHelp.textContent = 'Value not used for NFT type';
+                    break;
+                case 5: // Mythic
+                    valueHelp.textContent = 'Value not used - enables Solo Leveling state';
+                    break;
+            }
+        }
+
+        // Update all displays
+        function updateAllDisplays() {
+            toggleAttributeGroup();
+            updateValueHelp();
+            updateBadges();
+            updateAttributesDisplay();
+            generateForgeItemSvg();
+        }
+
+        // Initialize the page
+        function init() {
+            // Add event listeners
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateAllDisplays);
+            });
+
+            // Initial generation
+            updateAllDisplays();
+        }
+
+        // Start when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
